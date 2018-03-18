@@ -1,0 +1,71 @@
+﻿extends layout
+
+block content
+    div
+        div(ng-app="App", ng-controller="motoristaController")
+            h1 Cadastro de motorista
+            div(ng-form name="myForm")
+                span Nome
+                br
+                input(type="text", name="nome", style="width: 200px;", ng-model="motorista.nome" required)
+                span(ng-show="myForm.nome.$touched && myForm.nome.$invalid", style="color: red;")  Nome é obrigatorio.
+                br
+                span Data de Nascimento
+                br
+                input(type="text", name="data", style="width: 200px;", ng-model="motorista.dataNascimento" required)
+                span(ng-show="myForm.data.$touched && myForm.data.$invalid", style="color: red;")  Data de nascimento é obrigatorio.
+                br
+                span CPF
+                br
+                input(type="text", name="cpf", style="width: 200px;", ng-model="motorista.cpf", ng-maxlength="11", ng-minlength="11" required)
+                span(ng-show="myForm.cpf.$touched && myForm.cpf.$invalid", style="color: red;")  CPF é obrigatorio.
+                span(ng-show="myForm.cpf.$error.minlength || myForm.cpf.$error.maxlength", style="color: red;")  CPF deve ter 11 digitos.
+                br
+                span Modelo do carro
+                br
+                input(type="text", name="modeloCarro", style="width: 200px;", ng-model="motorista.modeloCarro" required)
+                span(ng-show="myForm.modeloCarro.$touched && myForm.modeloCarro.$invalid", style="color: red;")  Modelo carro é obrigatório.
+                br
+                span Status
+                br
+                select(style="width: 200px;", name="status",  ng-model="motorista.status" required)
+                    option(value="true") Ativo 
+                    option(value="false") Inativo
+                span(ng-show="myForm.status.$touched && myForm.status.$invalid", style="color: red;")  Status é obrigatorio.
+                br
+                span Sexo
+                br
+                select(style="width: 200px;", name="sexo", ng-model="motorista.sexo", required)
+                    option(value="M") Masculino 
+                    option(value="F") Feminino
+                span(ng-show="myForm.sexo.$touched && myForm.sexo.$invalid", style="color: red;")  Sexo é obrigatorio.
+                br
+                button(id="btnAdicionar", style="margin: 2px;", ng-click="Adicionar()", ng-disabled="myForm.nome.$invalid || myForm.data.$invalid || myForm.cpf.$invalid || myForm.sexo.$invalid || myForm.status.$invalid || myForm.modeloCarro.$invalid") Adicionar 
+            div
+                h3 Lista
+                table(class="table-responsive")
+                    thead
+                        tr
+                            th Nome 
+                            th Data Nascimento
+                            th CPF
+                            th Modelo Carro
+                            th Status
+                            th Sexo
+                    tbody
+                        tr(ng-repeat="entidade in entidades")
+                            td
+                                span {{entidade.nome}}
+                            td
+                                span {{entidade.dataNascimento}}
+                            td
+                                span {{entidade.cpf}}
+                            td
+                                span {{entidade.modeloCarro}}
+                            td
+                                select(style="width: 200px;", name="status",  ng-model="entidade.status", ng-change="AlterarStatus(entidade)", ng-options="o.v as o.n for o in [{ n: 'Ativo', v: true }, { n: 'Inativo', v: false }]")
+                            td
+                                span {{entidade.sexo}}
+                    
+        script(src="/javascripts/motoristaProxy.js")
+        script(src="/javascripts/motoristaController.js")

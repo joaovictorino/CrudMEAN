@@ -1,0 +1,44 @@
+﻿extends layout
+
+block content
+    div
+        div(ng-app="App", ng-controller="corridaController")
+            h1 Cadastro de corrida
+            div(ng-form name="myForm")
+                span Motorista
+                br
+                select(ng-model="corrida.motorista", name="motorista", style="width: 200px;", ng-options="motorista.nome for motorista in motoristas" required)
+                span(ng-show="myForm.motorista.$touched && myForm.motorista.$invalid", style="color: red;")  Motorista é obrigatorio.
+                br
+                span Passageiro
+                br
+                select(ng-model="corrida.passageiro", name="passageiro", style="width: 200px;", ng-options="passageiro.nome for passageiro in passageiros" required)
+                span(ng-show="myForm.passageiro.$touched && myForm.passageiro.$invalid", style="color: red;") Passageiro é obrigatorio.
+                br
+                span Valor
+                br
+                input(type="text", style="width: 200px;", name="valor", ng-model="corrida.valor" required)
+                span(ng-show="myForm.valor.$touched && myForm.valor.$invalid", style="color: red;")  Valor é obrigatorio.
+                br
+                button(id="btnAdicionar", style="margin: 2px;", ng-click="Adicionar()", ng-disabled="myForm.motorista.$invalid || myForm.passageiro.$invalid || myForm.valor.$invalid") Adicionar
+            div
+                h3 Lista
+                table(class="table-responsive")
+                    thead
+                        tr
+                            th Motorista 
+                            th Passageiro
+                            th Valor
+                    tbody
+                        tr(ng-repeat="entidade in entidades")
+                            td
+                                span {{entidade.motorista.nome}}
+                            td
+                                span {{entidade.passageiro.nome}}
+                            td
+                                span {{entidade.valor}}
+
+        script(src="/javascripts/corridaProxy.js")
+        script(src="/javascripts/motoristaProxy.js")
+        script(src="/javascripts/passageiroProxy.js")
+        script(src="/javascripts/corridaController.js")
